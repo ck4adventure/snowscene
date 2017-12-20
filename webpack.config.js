@@ -25,7 +25,7 @@ plugins = plugins.concat(
 
 module.exports = {
   context: __dirname,
-  entry: "./js/app2.js",
+  entry: "./js/app.js",
   output: {
     path: path.join(__dirname, 'js'),
     filename: "bundle.js"
