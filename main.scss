@@ -1,4 +1,21 @@
+* {
+  border: 1px solid pink;
+  color: white;
+}
+body {
+  background-color: #000d33;
+}
+div {
+  display: flex;
+
+}
 canvas {
   border: 1px solid white;
   border-radius: 2px;
+  margin: 0 auto;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
 }

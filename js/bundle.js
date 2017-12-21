@@ -85,14 +85,6 @@ canvas.width = window.innerWidth * 0.8;
 const container = document.getElementById('container');
 container.appendChild(canvas);
 
-// from canvas on was originally packed into the window.onload, but it seems
-// a bit much to keep track of, can refactor it back in later
-// window.onload = function() {};
-// const canvas = document.getElementById("snow");
-//after getting canvas we loaded, set to top left corner
-// canvas.style.position = 'absolute';
-// canvas.style.top = 0;
-// canvas.style.left = 0;
 const ctx = canvas.getContext('2d');
 
 const W = canvas.width;
@@ -120,24 +112,14 @@ for (let i = 0; i < snowFallParticles; i++) {
     let d = Math.random() * 220; //density ranging from near zero to 219
     let a = Math.random(); //starting angle before it hits the vector equation
 
-
-
   const flake = new __WEBPACK_IMPORTED_MODULE_1__flake___default.a(x, y, r, d, a, i, ctx);
-
   particles.push(flake);
 }
 
 
-// function animate () {
-//   requestAnimationFrame(animate);
-//   ctx.clearRect(0,0,innerWidth, innerHeight);
-//   for (var i = 0; i < particles.length; i++) {
-//     particles[i].snow();
-//   }
-//
-// }
+//ANIMATION
 var stop = false;
-var fps, fpsInterval, startTime, now, then, elapsed;
+var fpsInterval, startTime, now, then, elapsed;
 
 startAnimating(25);
 
@@ -155,22 +137,17 @@ function animate() {
     if (stop) {
       return;
     }
-
-
     // request another frame
     requestAnimationFrame(animate);
-
     // calc elapsed time since last loop
-
     now = Date.now();
     elapsed = now - then;
-
     // if enough time has elapsed, draw the next frame
     if (elapsed > fpsInterval) {
         // Get ready for next frame by setting then=now, but also adjust for your
         // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
         then = now - (elapsed % fpsInterval);
-        // Put your drawing code here
+        // actual drawing code here
           ctx.clearRect(0,0,innerWidth, innerHeight);
           for (var i = 0; i < particles.length; i++) {
             particles[i].snow();
@@ -178,17 +155,6 @@ function animate() {
     }
 }
 animate();
-// var snow = new Snow(W, H, ctx, particles);
-// const letItSnow = function () {
-//   // Snow.update(particles);
-//
-//
-//   snow.draw();
-//   snow.snow();
-// };
-// // snow.draw();
-//
-// setInterval(letItSnow, 40);
 
 
 /***/ }),
