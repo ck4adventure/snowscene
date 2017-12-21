@@ -69,7 +69,7 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__flake__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__flake__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__flake___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__flake__);
 // import Snow from './snow.js';
 
@@ -195,8 +195,7 @@ animate();
 
 
 /***/ }),
-/* 1 */,
-/* 2 */
+/* 1 */
 /***/ (function(module, exports) {
 
 function Flake (x, y, r, d, a, i, ctx) {
