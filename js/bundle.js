@@ -65,8 +65,12 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__snow_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__snow_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__snow_js__);
 
 
 const canvas = document.createElement('canvas');
@@ -78,43 +82,68 @@ canvas.width = window.innerWidth * 0.8;
 const container = document.getElementById('container');
 container.appendChild(canvas);
 
-window.onload = function() {
-  const canvas = document.getElementById("snow");
-  //after getting canvas we loaded, set to top left corner
-  // canvas.style.position = 'absolute';
-  // canvas.style.top = 0;
-  // canvas.style.left = 0;
+// from canvas on was originally packed into the window.onload, but it seems
+// a bit much to keep track of, can refactor it back in later
+// window.onload = function() {};
+// const canvas = document.getElementById("snow");
+//after getting canvas we loaded, set to top left corner
+// canvas.style.position = 'absolute';
+// canvas.style.top = 0;
+// canvas.style.left = 0;
+const ctx = canvas.getContext('2d');
 
-  const W = canvas.width;
-  const H = canvas.height;
+const W = canvas.width;
+const H = canvas.height;
 
 //pixel sizes for snow flake dots //4
-  const snowFlakeSizeMax = 2;
-  const snowFlakeSizeMin = 0.5;
-  //TODO eventually get the density as a ratio to window size,
-  // currently is literal count of points 220
-  const snowFallDensity = 1000;
+const snowFlakeSizeMax = 2;
+const snowFlakeSizeMin = 0.5;
 
-  const ctx = canvas.getContext('2d');
-  //TODO: set this number to a variable
-  let mp = 800;
-  var particles = [];
-  for (let i = 0; i < mp; i++) {
-    particles.push({
-      x: Math.random()*W,
-      y: Math.random()*H, //old r +1
-      r: Math.random()*3+1, //can make the snow bigger or larger, which also affects speed
-      d: Math.random()*220, //density
-      a: Math.random(), //starting angle before it hits the vector equation
+//TODO eventually get the density as a ratio to window size,
+// currently is literal count of points //220
+const snowFallParticles = 800; //mp
 
-    });
-  }
 
-  function draw() {
+
+var particles = [];
+for (let i = 0; i < snowFallParticles; i++) {
+  particles.push({
+    x: Math.random()*W,
+    y: Math.random()*H, //old r +1
+    r: Math.random() * snowFlakeSizeMax + snowFlakeSizeMin, //can make the snow bigger or larger, which also affects speed
+    d: Math.random() * 220, //density ranging from near zero to 219
+    a: Math.random(), //starting angle before it hits the vector equation
+
+  });
+}
+var snow = new __WEBPACK_IMPORTED_MODULE_0__snow_js___default.a(W, H, ctx, particles);
+const letItSnow = function () {
+  // Snow.update(particles);
+
+
+  snow.draw();
+  snow.snow();
+};
+// snow.draw();
+
+setInterval(letItSnow, 40);
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+function Snow (W, H, ctx, particles) {
+  this.W = W;
+  this.H = H;
+  this.ctx = ctx;
+  this.particles = particles;
+
+  this.draw = function () {
     ctx.clearRect( 0, 0, W, H);
 
     //set color
-     ctx.fillStyle = "rgba(228,228,218, 0.6)";
+    ctx.fillStyle = "rgba(228,228,218, 0.6)";
     // const gradient = ctx.createLinearGradient(0,0,0,H);
     // gradient.addColorStop(0, "pink");
     // gradient.addColorStop(0.5, "yellow");
@@ -125,8 +154,10 @@ window.onload = function() {
     //surreal halo effect
     ctx.shadowBlur = 6;
     ctx.shadowColor = "white";
+
+    //actual draw
     ctx.beginPath();
-    for (let i = 0; i < mp; i++) {
+    for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
 
       ctx.moveTo(p.x, p.y);
@@ -134,18 +165,21 @@ window.onload = function() {
       ctx.arc(p.x, p.y, p.r, 0, Math.PI*2, true);
     }
     ctx.fill();
-    update();
-  }
+    // may need to move snow function
+    
+  };
+
+
+
   //originally with a set angle 0 for each dot, regardless
   //let angle = 0;
   //this is what updates the positions, the vectors for snowfall
-  function update() {
+  this.snow = function () {
     // here it would be incremented for each time
     // angle += 0.01;
-
-    for(let i = 0; i < mp; i++) {
+    for(let i = 0; i < particles.length; i++) {
       let p = particles[i];
-      //currently updating the angle inside the for loop
+      //currently updating the individual angle inside the for loop
       p.a += 0.01;
 
       //TODO set downward velocity through here
@@ -156,6 +190,7 @@ window.onload = function() {
       p.x += Math.sin(p.a + p.d) * 1;
 
       // code to get the particles to wrap
+      // here we start by grabbing them if out of bounds
       if(p.x > W+5 || p.x < -5 || p.y > H) {
         if(i%10 > 0) //66.67% of the flakes %3 //%10 seems to create less border bunching
         {
@@ -177,9 +212,12 @@ window.onload = function() {
         }
       }
     }
-  }
-  setInterval(draw, 40);
-};
+    //end of snow function below
+  };
+//END OF SNOW
+}
+
+ module.exports = Snow;
 
 
 /***/ })
