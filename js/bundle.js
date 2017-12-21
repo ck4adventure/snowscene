@@ -104,13 +104,13 @@ window.addEventListener('resize', function(){
 });
 
 //pixel sizes for snow flake dots //4
-const snowFlakeSizeMax = 4;
+// const snowFlakeSizeMax = 4;
 const snowFlakeSizeMin = 1;
 
 //TODO eventually get the density as a ratio to window size,
 // currently is literal count of points //220
- //mp
 
+//snowflake count slider
 var densitySliderEl = document.getElementsByClassName('slider')[0];
 var currentDensityEl = document.getElementById('currentDensity');
 
@@ -118,12 +118,27 @@ currentDensityEl.innerHTML = densitySliderEl.value;
 var snowFallParticles = parseInt(densitySliderEl.value);
 
 densitySliderEl.oninput = function() {
-  stop = true;
+  // stop = true;
   snowFallParticles = parseInt(this.value);
   createSnowflakes();
-  stop = false;
-  currentDensityEl.innerHTML = densitySliderEl.value;
+  // stop = false;
+  currentDensityEl.innerHTML = this.value;
 };
+
+//snowflake max size slider
+var maxSizeSliderEl = document.getElementsByClassName('slider')[1];
+var currentMaxSizeEl = document.getElementById('currentMaxSize');
+
+currentMaxSizeEl.innerHTML = maxSizeSliderEl.value;
+var snowFlakeSizeMax = parseInt(maxSizeSliderEl.value);
+
+maxSizeSliderEl.oninput = function() {
+  snowFlakeSizeMax = parseInt(this.value);
+  createSnowflakes();
+  currentMaxSizeEl.innerHTML = this.value;
+};
+
+
 
 
 function createSnowflakes () {

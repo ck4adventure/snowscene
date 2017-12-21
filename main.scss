@@ -31,6 +31,10 @@ canvas {
   width: 46px;
 }
 
-.slider {
+.controls-2 > div, span, input {
+  padding: 2px 4px;
+}
 
+#currentMaxSize {
+  width: 42px;
 }
