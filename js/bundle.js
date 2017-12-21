@@ -82,8 +82,7 @@ var particles = [];
 
 const canvas = document.createElement('canvas');
 canvas.id = 'snow';
-// canvas.height = 800;
-// canvas.width = 1200;
+
 canvas.height = window.innerHeight * 0.8;
 canvas.width = window.innerWidth * 0.8;
 const container = document.getElementById('container');
@@ -103,8 +102,7 @@ window.addEventListener('resize', function(){
 
 });
 
-//pixel sizes for snow flake dots //4
-// const snowFlakeSizeMax = 4;
+//pixel sizes for snow flake dots - my fav is max 4
 const snowFlakeSizeMin = 1;
 
 //TODO eventually get the density as a ratio to window size,
@@ -159,9 +157,6 @@ function createSnowflakes () {
 
 
 //ANIMATION
-// var stop = false;
-// var fpsInterval, startTime, now, then, elapsed;
-
 startAnimating(25);
 
 function startAnimating(fps) {
