@@ -16,8 +16,9 @@ function Flake (x, y, r, d, a, i, ctx) {
 
   this.update = function () {
     this.a += 0.01;
-    this.y += Math.cos( this.a + this.d) + 1 + this.r/2;
-    this.x += Math.sin( this.a + this.d) * 1;
+    // this.y += Math.cos( this.a + this.d) + 1 + this.r/2;
+    this.y += Math.cos( this.a + this.d ) + 0.1 + this.r/2;
+    this.x += Math.sin( this.a + this.d ) * 1;
 
     if(this.x > innerWidth + 5 || this.x < -5 || this.y > innerHeight) {
       if( this.i % 10 > 0 ) {

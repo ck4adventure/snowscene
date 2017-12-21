@@ -128,15 +128,55 @@ for (let i = 0; i < snowFallParticles; i++) {
 }
 
 
-function animate () {
-  requestAnimationFrame(animate);
-  ctx.clearRect(0,0,innerWidth, innerHeight);
-  for (var i = 0; i < particles.length; i++) {
-    particles[i].snow();
-  }
+// function animate () {
+//   requestAnimationFrame(animate);
+//   ctx.clearRect(0,0,innerWidth, innerHeight);
+//   for (var i = 0; i < particles.length; i++) {
+//     particles[i].snow();
+//   }
+//
+// }
+var stop = false;
+var fps, fpsInterval, startTime, now, then, elapsed;
 
+startAnimating(25);
+
+function startAnimating(fps) {
+  fpsInterval = 1000/fps;
+  then = Date.now();
+  startTime = then;
+  console.log(startTime);
+  animate();
 }
 
+
+function animate() {
+    //able to stop
+    if (stop) {
+      return;
+    }
+
+
+    // request another frame
+    requestAnimationFrame(animate);
+
+    // calc elapsed time since last loop
+
+    now = Date.now();
+    elapsed = now - then;
+
+    // if enough time has elapsed, draw the next frame
+    if (elapsed > fpsInterval) {
+        // Get ready for next frame by setting then=now, but also adjust for your
+        // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
+        then = now - (elapsed % fpsInterval);
+        // Put your drawing code here
+          ctx.clearRect(0,0,innerWidth, innerHeight);
+          for (var i = 0; i < particles.length; i++) {
+            particles[i].snow();
+          }
+    }
+}
 animate();
 // var snow = new Snow(W, H, ctx, particles);
 // const letItSnow = function () {
@@ -269,8 +309,9 @@ function Flake (x, y, r, d, a, i, ctx) {
 
   this.update = function () {
     this.a += 0.01;
-    this.y += Math.cos( this.a + this.d) + 1 + this.r/2;
-    this.x += Math.sin( this.a + this.d) * 1;
+    // this.y += Math.cos( this.a + this.d) + 1 + this.r/2;
+    this.y += Math.cos( this.a + this.d ) + 0.1 + this.r/2;
+    this.x += Math.sin( this.a + this.d ) * 1;
 
     if(this.x > innerWidth + 5 || this.x < -5 || this.y > innerHeight) {
       if( this.i % 10 > 0 ) {
