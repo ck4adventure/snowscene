@@ -71,6 +71,9 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__snow_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__snow_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__snow_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__flake__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__flake___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__flake__);
+
 
 
 const canvas = document.createElement('canvas');
@@ -95,38 +98,57 @@ const ctx = canvas.getContext('2d');
 const W = canvas.width;
 const H = canvas.height;
 
+window.addEventListener('resize', function(){
+  canvas.width = window.innerWidth * 0.8;
+  canvas.height = window.innerHeight * 0.8;
+});
+
 //pixel sizes for snow flake dots //4
-const snowFlakeSizeMax = 2;
-const snowFlakeSizeMin = 0.5;
+const snowFlakeSizeMax = 4;
+const snowFlakeSizeMin = 1;
 
 //TODO eventually get the density as a ratio to window size,
 // currently is literal count of points //220
 const snowFallParticles = 800; //mp
 
-
-
 var particles = [];
 for (let i = 0; i < snowFallParticles; i++) {
-  particles.push({
-    x: Math.random()*W,
-    y: Math.random()*H, //old r +1
-    r: Math.random() * snowFlakeSizeMax + snowFlakeSizeMin, //can make the snow bigger or larger, which also affects speed
-    d: Math.random() * 220, //density ranging from near zero to 219
-    a: Math.random(), //starting angle before it hits the vector equation
+  // console.log(i);
+    let x = Math.random()*W;
+    let y = Math.random()*H; //old r +1
+    let r = Math.random() * snowFlakeSizeMax + snowFlakeSizeMin; //can make the snow bigger or larger, which also affects speed
+    let d = Math.random() * 220; //density ranging from near zero to 219
+    let a = Math.random(); //starting angle before it hits the vector equation
 
-  });
+
+
+  const flake = new __WEBPACK_IMPORTED_MODULE_1__flake___default.a(x, y, r, d, a, i, ctx);
+
+  particles.push(flake);
 }
-var snow = new __WEBPACK_IMPORTED_MODULE_0__snow_js___default.a(W, H, ctx, particles);
-const letItSnow = function () {
-  // Snow.update(particles);
 
 
-  snow.draw();
-  snow.snow();
-};
-// snow.draw();
+function animate () {
+  requestAnimationFrame(animate);
+  ctx.clearRect(0,0,innerWidth, innerHeight);
+  for (var i = 0; i < particles.length; i++) {
+    particles[i].snow();
+  }
 
-setInterval(letItSnow, 40);
+}
+
+animate();
+// var snow = new Snow(W, H, ctx, particles);
+// const letItSnow = function () {
+//   // Snow.update(particles);
+//
+//
+//   snow.draw();
+//   snow.snow();
+// };
+// // snow.draw();
+//
+// setInterval(letItSnow, 40);
 
 
 /***/ }),
@@ -138,6 +160,11 @@ function Snow (W, H, ctx, particles) {
   this.H = H;
   this.ctx = ctx;
   this.particles = particles;
+
+  this.update = function (values) {
+    //pass in a values object
+    
+  };
 
   this.draw = function () {
     ctx.clearRect( 0, 0, W, H);
@@ -166,7 +193,7 @@ function Snow (W, H, ctx, particles) {
     }
     ctx.fill();
     // may need to move snow function
-    
+
   };
 
 
@@ -218,6 +245,61 @@ function Snow (W, H, ctx, particles) {
 }
 
  module.exports = Snow;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+function Flake (x, y, r, d, a, i, ctx) {
+  this.x = x;
+  this.y = y;
+  this.r = r;
+  this.d = d;
+  this.a = a;
+  this.i = i;
+
+  this.draw = function () {
+    ctx.fillStyle = "rgba(228, 228, 218, 0.6)";
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, true);
+    ctx.fill();
+  };
+
+  this.update = function () {
+    this.a += 0.01;
+    this.y += Math.cos( this.a + this.d) + 1 + this.r/2;
+    this.x += Math.sin( this.a + this.d) * 1;
+
+    if(this.x > innerWidth + 5 || this.x < -5 || this.y > innerHeight) {
+      if( this.i % 10 > 0 ) {
+        this.x = Math.random()*innerWidth;
+        this.y = -10;
+      } else {
+        //exiting from the right
+        if (Math.sin(this.a) > 0) {
+          //enter from the left
+          this.x = -5;
+          this.y = Math.random()*innerHeight;
+        } else {
+          //enter from the right
+          this.x = innerWidth + 5;
+          this.y = Math.random()*innerHeight;
+        }
+      }
+    }
+
+
+  };
+
+  this.snow = function () {
+    this.draw();
+    this.update();
+  };
+}
+
+module.exports = Flake;
 
 
 /***/ })

@@ -4,6 +4,11 @@ function Snow (W, H, ctx, particles) {
   this.ctx = ctx;
   this.particles = particles;
 
+  this.update = function (values) {
+    //pass in a values object
+    
+  };
+
   this.draw = function () {
     ctx.clearRect( 0, 0, W, H);
 
@@ -31,7 +36,7 @@ function Snow (W, H, ctx, particles) {
     }
     ctx.fill();
     // may need to move snow function
-    
+
   };
 
 
