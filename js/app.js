@@ -1,5 +1,11 @@
-import Snow from './snow.js';
+// import Snow from './snow.js';
 import Flake from './flake';
+
+//ANIMATION
+var stop = false;
+var fpsInterval, startTime, now, then, elapsed;
+
+var particles = [];
 
 const canvas = document.createElement('canvas');
 canvas.id = 'snow';
@@ -12,12 +18,16 @@ container.appendChild(canvas);
 
 const ctx = canvas.getContext('2d');
 
-const W = canvas.width;
-const H = canvas.height;
+var W = canvas.width;
+var H = canvas.height;
 
 window.addEventListener('resize', function(){
   canvas.width = window.innerWidth * 0.8;
   canvas.height = window.innerHeight * 0.8;
+  W = canvas.width;
+  H = canvas.height;
+  createSnowflakes();
+
 });
 
 //pixel sizes for snow flake dots //4
@@ -26,25 +36,43 @@ const snowFlakeSizeMin = 1;
 
 //TODO eventually get the density as a ratio to window size,
 // currently is literal count of points //220
-const snowFallParticles = 800; //mp
+ //mp
 
-var particles = [];
-for (let i = 0; i < snowFallParticles; i++) {
-  // console.log(i);
-    let x = Math.random()*W;
-    let y = Math.random()*H; //old r +1
-    let r = Math.random() * snowFlakeSizeMax + snowFlakeSizeMin; //can make the snow bigger or larger, which also affects speed
-    let d = Math.random() * 220; //density ranging from near zero to 219
-    let a = Math.random(); //starting angle before it hits the vector equation
+var densitySliderEl = document.getElementsByClassName('slider')[0];
+var currentDensityEl = document.getElementById('currentDensity');
 
-  const flake = new Flake(x, y, r, d, a, i, ctx);
-  particles.push(flake);
+currentDensityEl.innerHTML = densitySliderEl.value;
+var snowFallParticles = parseInt(densitySliderEl.value);
+
+densitySliderEl.oninput = function() {
+  stop = true;
+  snowFallParticles = parseInt(this.value);
+  createSnowflakes();
+  stop = false;
+  currentDensityEl.innerHTML = densitySliderEl.value;
+};
+
+
+function createSnowflakes () {
+  particles = [];
+  for (let i = 0; i < snowFallParticles; i++) {
+    // console.log(i);
+      let x = Math.random()*W;
+      let y = Math.random()*H; //old r +1
+      let r = Math.random() * snowFlakeSizeMax + snowFlakeSizeMin; //can make the snow bigger or larger, which also affects speed
+      let d = Math.random() * 220; //density ranging from near zero to 219
+      let a = Math.random(); //starting angle before it hits the vector equation
+
+    const flake = new Flake(x, y, r, d, a, i, ctx);
+    particles.push(flake);
+  }
 }
 
 
+
 //ANIMATION
-var stop = false;
-var fpsInterval, startTime, now, then, elapsed;
+// var stop = false;
+// var fpsInterval, startTime, now, then, elapsed;
 
 startAnimating(25);
 
@@ -52,7 +80,7 @@ function startAnimating(fps) {
   fpsInterval = 1000/fps;
   then = Date.now();
   startTime = then;
-  console.log(startTime);
+  // console.log(startTime);
   animate();
 }
 
@@ -79,4 +107,5 @@ function animate() {
           }
     }
 }
+createSnowflakes();
 animate();

@@ -69,12 +69,16 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__snow_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__snow_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__snow_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__flake__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__flake___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__flake__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__flake__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__flake___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__flake__);
+// import Snow from './snow.js';
 
 
+//ANIMATION
+var stop = false;
+var fpsInterval, startTime, now, then, elapsed;
+
+var particles = [];
 
 const canvas = document.createElement('canvas');
 canvas.id = 'snow';
@@ -87,12 +91,16 @@ container.appendChild(canvas);
 
 const ctx = canvas.getContext('2d');
 
-const W = canvas.width;
-const H = canvas.height;
+var W = canvas.width;
+var H = canvas.height;
 
 window.addEventListener('resize', function(){
   canvas.width = window.innerWidth * 0.8;
   canvas.height = window.innerHeight * 0.8;
+  W = canvas.width;
+  H = canvas.height;
+  createSnowflakes();
+
 });
 
 //pixel sizes for snow flake dots //4
@@ -101,25 +109,43 @@ const snowFlakeSizeMin = 1;
 
 //TODO eventually get the density as a ratio to window size,
 // currently is literal count of points //220
-const snowFallParticles = 800; //mp
+ //mp
 
-var particles = [];
-for (let i = 0; i < snowFallParticles; i++) {
-  // console.log(i);
-    let x = Math.random()*W;
-    let y = Math.random()*H; //old r +1
-    let r = Math.random() * snowFlakeSizeMax + snowFlakeSizeMin; //can make the snow bigger or larger, which also affects speed
-    let d = Math.random() * 220; //density ranging from near zero to 219
-    let a = Math.random(); //starting angle before it hits the vector equation
+var densitySliderEl = document.getElementsByClassName('slider')[0];
+var currentDensityEl = document.getElementById('currentDensity');
 
-  const flake = new __WEBPACK_IMPORTED_MODULE_1__flake___default.a(x, y, r, d, a, i, ctx);
-  particles.push(flake);
+currentDensityEl.innerHTML = densitySliderEl.value;
+var snowFallParticles = parseInt(densitySliderEl.value);
+
+densitySliderEl.oninput = function() {
+  stop = true;
+  snowFallParticles = parseInt(this.value);
+  createSnowflakes();
+  stop = false;
+  currentDensityEl.innerHTML = densitySliderEl.value;
+};
+
+
+function createSnowflakes () {
+  particles = [];
+  for (let i = 0; i < snowFallParticles; i++) {
+    // console.log(i);
+      let x = Math.random()*W;
+      let y = Math.random()*H; //old r +1
+      let r = Math.random() * snowFlakeSizeMax + snowFlakeSizeMin; //can make the snow bigger or larger, which also affects speed
+      let d = Math.random() * 220; //density ranging from near zero to 219
+      let a = Math.random(); //starting angle before it hits the vector equation
+
+    const flake = new __WEBPACK_IMPORTED_MODULE_0__flake___default.a(x, y, r, d, a, i, ctx);
+    particles.push(flake);
+  }
 }
 
 
+
 //ANIMATION
-var stop = false;
-var fpsInterval, startTime, now, then, elapsed;
+// var stop = false;
+// var fpsInterval, startTime, now, then, elapsed;
 
 startAnimating(25);
 
@@ -127,7 +153,7 @@ function startAnimating(fps) {
   fpsInterval = 1000/fps;
   then = Date.now();
   startTime = then;
-  console.log(startTime);
+  // console.log(startTime);
   animate();
 }
 
@@ -154,106 +180,12 @@ function animate() {
           }
     }
 }
+createSnowflakes();
 animate();
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-function Snow (W, H, ctx, particles) {
-  this.W = W;
-  this.H = H;
-  this.ctx = ctx;
-  this.particles = particles;
-
-  this.update = function (values) {
-    //pass in a values object
-    
-  };
-
-  this.draw = function () {
-    ctx.clearRect( 0, 0, W, H);
-
-    //set color
-    ctx.fillStyle = "rgba(228,228,218, 0.6)";
-    // const gradient = ctx.createLinearGradient(0,0,0,H);
-    // gradient.addColorStop(0, "pink");
-    // gradient.addColorStop(0.5, "yellow");
-    // gradient.addColorStop(0.7, "white");
-    // gradient.addColorStop(1.0, "orange");
-    // ctx.fillStyle = gradient;
-
-    //surreal halo effect
-    ctx.shadowBlur = 6;
-    ctx.shadowColor = "white";
-
-    //actual draw
-    ctx.beginPath();
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-
-      ctx.moveTo(p.x, p.y);
-      // just a circle for each snowflke
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2, true);
-    }
-    ctx.fill();
-    // may need to move snow function
-
-  };
-
-
-
-  //originally with a set angle 0 for each dot, regardless
-  //let angle = 0;
-  //this is what updates the positions, the vectors for snowfall
-  this.snow = function () {
-    // here it would be incremented for each time
-    // angle += 0.01;
-    for(let i = 0; i < particles.length; i++) {
-      let p = particles[i];
-      //currently updating the individual angle inside the for loop
-      p.a += 0.01;
-
-      //TODO set downward velocity through here
-      // p.y += Math.cos(angle+p.d) + 1 + p.r/2; //old y with angle
-      p.y += Math.cos(p.a + p.d) + 1 + p.r/2;
-      // p.x += Math.sin(p.a)*1;
-      //added in density as an extra factor in the side to side movement
-      p.x += Math.sin(p.a + p.d) * 1;
-
-      // code to get the particles to wrap
-      // here we start by grabbing them if out of bounds
-      if(p.x > W+5 || p.x < -5 || p.y > H) {
-        if(i%10 > 0) //66.67% of the flakes %3 //%10 seems to create less border bunching
-        {
-          particles[i] = {x: Math.random()*W, y: -10, r: p.r, d: p.d, a: p.a };
-        }
-        else
-        {
-          //If the flake is exitting from the right
-          if(Math.sin(p.a) > 0)
-          {
-            //Enter from the left
-            particles[i] = {x: -5, y: Math.random()*H, r: p.r, d: p.d, a: p.a };
-          }
-          else
-          {
-            //Enter from the right
-            particles[i] = {x: W+5, y: Math.random()*H, r: p.r, d: p.d, a: p.a };
-          }
-        }
-      }
-    }
-    //end of snow function below
-  };
-//END OF SNOW
-}
-
- module.exports = Snow;
-
-
-/***/ }),
+/* 1 */,
 /* 2 */
 /***/ (function(module, exports) {
 
@@ -311,3 +243,4 @@ module.exports = Flake;
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=bundle.js.map
