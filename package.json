@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "webpack": "webpack --watch"
+    "webpack": "webpack --watch",
+    "start": "webpack"
   },
   "keywords": [],
   "author": "",
