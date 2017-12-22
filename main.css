@@ -54,3 +54,12 @@ canvas {
 #currentMaxSize {
   width: 42px;
 }
+
+footer {
+  float: right;
+  margin: 0px 16px;
+}
+
+small {
+  font-size: 12px;
+}
