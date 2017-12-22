@@ -15,7 +15,11 @@ canvas {
   border-radius: 4px;
   margin: 0 auto;
 }
-
+.greeting {
+  color: red;
+  font-size: 18px;
+  font-family: 'Great Vibes', cursive;
+}
 .controls {
   display: flex;
   flex-direction: column;
