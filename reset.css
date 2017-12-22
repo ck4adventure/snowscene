@@ -1,4 +1,4 @@
-// reset css values
+
 
  html, body, header, nav, h1, h2, h3, h4, h5, h6, a,
  ul, li, strong, main, button, i,
@@ -17,7 +17,7 @@
    box-sizing: inherit;
    background: transparent;
 
-   // border: 1px solid pink !important;
+   /* // border: 1px solid pink !important; */
  }
 
  ul {

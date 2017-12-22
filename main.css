@@ -16,9 +16,21 @@ canvas {
   margin: 0 auto;
 }
 .greeting {
-  color: red;
-  font-size: 18px;
+  display: flex;
+
+  color: #ba2a4d;
+  font-size: 44px;
   font-family: 'Great Vibes', cursive;
+  text-shadow: 0px 1px 5px #ba2a4d;
+  margin: 0;
+}
+
+.greeting-text {
+  margin: 0px auto;
+}
+
+.container {
+  margin: 0;
 }
 .controls {
   display: flex;
