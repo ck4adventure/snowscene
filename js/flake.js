@@ -14,7 +14,7 @@ function Flake (x, y, r, d, a, i, ctx) {
     ctx.fill();
   };
 
-  this.update = function () {
+  this.snow = function () {
     this.a += 0.01;
     // this.y += Math.cos( this.a + this.d) + 1 + this.r/2;
     this.y += Math.cos( this.a + this.d ) + 0.1 + this.r/2;
@@ -44,8 +44,8 @@ function Flake (x, y, r, d, a, i, ctx) {
   this.blizzard = function () {
     this.a += 0.01;
     // this.y += Math.cos( this.a + this.d) + 1 + this.r/2;
-    this.y += Math.cos( this.a + this.d ) + 0.1 + this.r/2;
-    this.x += Math.sin( this.a + this.d ) * 1;
+    this.y += Math.cos( this.a + this.d ) + this.r * 2;
+    this.x += Math.sin( this.a + this.d ) * .5;
 
     if(this.x > innerWidth + 5 || this.x < -5 || this.y > innerHeight) {
       if( this.i % 10 > 0 ) {
@@ -70,7 +70,7 @@ function Flake (x, y, r, d, a, i, ctx) {
 
   this.snow = function () {
     this.draw();
-    this.update();
+    this.blizzard();
   };
 }
 
