@@ -136,6 +136,19 @@ maxSizeSliderEl.oninput = function() {
   currentMaxSizeEl.innerHTML = this.value;
 };
 
+//wind drift slider
+var windDriftSliderEl = document.getElementsByClassName('slider')[2];
+var currentWindDriftEl = document.getElementById('currentWindDrift');
+
+currentWindDriftEl.innerHTML = windDriftSliderEl.value;
+var currentWindDriftLevel = parseInt(windDriftSliderEl.value);
+
+windDriftSliderEl.oninput = function() {
+  currentWindDriftLevel = parseInt(this.value);
+  createSnowflakes();
+  currentWindDriftEl.innerHTML = this.value;
+};
+
 
 
 
@@ -148,8 +161,9 @@ function createSnowflakes () {
       let r = Math.random() * snowFlakeSizeMax + snowFlakeSizeMin; //can make the snow bigger or larger, which also affects speed
       let d = Math.random() * 220; //density ranging from near zero to 219
       let a = Math.random(); //starting angle before it hits the vector equation
-
-    const flake = new __WEBPACK_IMPORTED_MODULE_0__flake___default.a(x, y, r, d, a, i, ctx);
+      let wind = currentWindDriftLevel;
+      //let wind = 1;
+    const flake = new __WEBPACK_IMPORTED_MODULE_0__flake___default.a(x, y, r, d, a, i, ctx, wind);
     particles.push(flake);
   }
 }
@@ -198,13 +212,14 @@ animate();
 /* 1 */
 /***/ (function(module, exports) {
 
-function Flake (x, y, r, d, a, i, ctx) {
+function Flake (x, y, r, d, a, i, ctx, wind) {
   this.x = x;
   this.y = y;
   this.r = r;
   this.d = d;
   this.a = a;
   this.i = i;
+  this.wind = wind;
 
   this.draw = function () {
     ctx.fillStyle = "rgba(228, 228, 218, 0.6)";
@@ -214,13 +229,14 @@ function Flake (x, y, r, d, a, i, ctx) {
     ctx.fill();
   };
 
-  this.snow = function () {
+  this.light = function () {
     this.a += 0.01;
     // this.y += Math.cos( this.a + this.d) + 1 + this.r/2;
     this.y += Math.cos( this.a + this.d ) + 0.1 + this.r/2;
-    this.x += Math.sin( this.a + this.d ) * 1;
+    this.x += Math.sin( this.a + this.d ) + this.wind;
 
     if(this.x > innerWidth + 5 || this.x < -5 || this.y > innerHeight) {
+      //%10
       if( this.i % 10 > 0 ) {
         this.x = Math.random()*innerWidth;
         this.y = -10;
@@ -245,7 +261,7 @@ function Flake (x, y, r, d, a, i, ctx) {
     this.a += 0.01;
     // this.y += Math.cos( this.a + this.d) + 1 + this.r/2;
     this.y += Math.cos( this.a + this.d ) + this.r * 2;
-    this.x += Math.sin( this.a + this.d ) * .5;
+    this.x += Math.sin( this.a + this.d ) * .5 + 2;
 
     if(this.x > innerWidth + 5 || this.x < -5 || this.y > innerHeight) {
       if( this.i % 10 > 0 ) {
@@ -270,7 +286,7 @@ function Flake (x, y, r, d, a, i, ctx) {
 
   this.snow = function () {
     this.draw();
-    this.blizzard();
+    this.light();
   };
 }
 

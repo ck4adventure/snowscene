@@ -63,6 +63,19 @@ maxSizeSliderEl.oninput = function() {
   currentMaxSizeEl.innerHTML = this.value;
 };
 
+//wind drift slider
+var windDriftSliderEl = document.getElementsByClassName('slider')[2];
+var currentWindDriftEl = document.getElementById('currentWindDrift');
+
+currentWindDriftEl.innerHTML = windDriftSliderEl.value;
+var currentWindDriftLevel = parseInt(windDriftSliderEl.value);
+
+windDriftSliderEl.oninput = function() {
+  currentWindDriftLevel = parseInt(this.value);
+  createSnowflakes();
+  currentWindDriftEl.innerHTML = this.value;
+};
+
 
 
 
@@ -75,8 +88,9 @@ function createSnowflakes () {
       let r = Math.random() * snowFlakeSizeMax + snowFlakeSizeMin; //can make the snow bigger or larger, which also affects speed
       let d = Math.random() * 220; //density ranging from near zero to 219
       let a = Math.random(); //starting angle before it hits the vector equation
-
-    const flake = new Flake(x, y, r, d, a, i, ctx);
+      let wind = currentWindDriftLevel;
+      //let wind = 1;
+    const flake = new Flake(x, y, r, d, a, i, ctx, wind);
     particles.push(flake);
   }
 }
