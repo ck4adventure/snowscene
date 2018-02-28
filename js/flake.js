@@ -22,7 +22,7 @@ function Flake (x, y, r, d, a, i, ctx, wind) {
     this.x += Math.sin( this.a + this.d ) + this.wind;
 
     if(this.x > innerWidth + 5 || this.x < -5 || this.y > innerHeight) {
-      //%10
+      //%10 original x widths were 5, -5 above
       if( this.i % 10 > 0 ) {
         this.x = Math.random()*innerWidth;
         this.y = -10;
