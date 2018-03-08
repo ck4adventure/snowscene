@@ -97,7 +97,7 @@ function createSnowflakes () {
 
 
 
-//ANIMATION
+//ANIMATION  25
 startAnimating(25);
 
 function startAnimating(fps) {
