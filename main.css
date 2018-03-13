@@ -1,7 +1,8 @@
-// * {
-//   border: 1px solid pink;
-//   color: white;
-// }
+/* * {
+   border: 1px solid pink !important;
+   color: white;
+ } */
+
 body {
   background-color: #000d33;
   color: gray;
@@ -32,32 +33,38 @@ canvas {
 .container {
   margin: 0;
 }
+
+.controls-container {
+  display: flex;
+  justify-content: space-between;
+
+}
 .controls {
   display: flex;
+
+
+}
+
+.control-labels {
   flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
 }
 
-.controls-1 > div, span, input {
-  padding: 2px 4px
-
+.sliders {
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-#currentDensity {
-  width: 46px;
-}
-
-.controls-2 > div, span, input {
-  padding: 2px 4px;
-}
-
-#currentMaxSize {
-  width: 42px;
+.values {
+  flex-direction: column;
+  text-align: right;
+  min-width: 40px;
+  justify-content: space-between;
 }
 
 footer {
   float: right;
-  margin: 0px 16px;
+  margin: 4px 16px;
 }
 
 small {

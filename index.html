@@ -27,34 +27,58 @@
 
     </div>
 
+<!-- -->
+<div class="controls-container">
+  <div></div>
+  <div class="controls">
+    <div class="control-labels">
+      <div>Snowflake Density:</div>
+      <div>Snowflake Max Size:</div>
+      <div>Wind Drift:</div>
+    </div>
 
-    <div class="controls">
+    <div class="sliders">
+      <input type="range" min="10" max="1000" value="400"
+        class="slider" id="particleDensitySlider"/>
+      <input type="range" min="1" max="20" value="4"
+        class="slider" id="maxSizeSlider"/>
+      <input type="range" min="0" max="5" value="0"
+        class="slider" id="windDriftSlider"/>
+    </div>
 
+    <div class="values">
+      <span id="currentDensity"></span>
+      <span id="currentMaxSize"></span>
+      <span id="currentWindDrift"></span>
+    </div>
+  </div>
+  <div></div>
+</div>
+
+
+    <!-- <div class="controls">
       <div class="controls-1">
         <div>Snowflake Density:</div>
-        <span id="currentDensity"></span>
         <input type="range" min="10" max="1000" value="400"
           class="slider" id="particleDensitySlider"/>
+          <span id="currentDensity"></span>
       </div>
 
       <div class="controls-2">
         <div>Snowflake Max Size:</div>
-        <span id="currentMaxSize"></span>
         <input type="range" min="1" max="20" value="4"
           class="slider" id="maxSizeSlider"/>
+          <span id="currentMaxSize"></span>
       </div>
 
       <div class="controls-3">
         <div>Wind Drift:</div>
-        <span id="currentWindDrift"></span>
-        <input type="range" min="0" max="4" value="0"
+        <input type="range" min="0" max="5" value="0"
           class="slider" id="windDriftSlider"/>
+          <span id="currentWindDrift"></span>
       </div>
+    </div> -->
 
-
-
-
-    </div>
     <footer><a href="https://github.com/ck4adventure/snowscene"> snowscene on github</a><br><small>Christina Kiesz/Studio27</footer>
         <script src="./js/bundle.js"></script>
   </body>
