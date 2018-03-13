@@ -41,8 +41,10 @@ canvas {
 }
 .controls {
   display: flex;
+}
 
-
+.controls div {
+  padding: 2px 6px;
 }
 
 .control-labels {
