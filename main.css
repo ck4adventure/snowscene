@@ -9,11 +9,10 @@ body {
 }
 div {
   display: flex;
-
 }
 canvas {
-  border: 1px solid silver;
-  border-radius: 4px;
+  /* border: 1px solid silver;
+  border-radius: 4px; */
   margin: 0 auto;
 }
 .greeting {
@@ -21,7 +20,7 @@ canvas {
 
   color: silver;
   font-size: 44px;
-  font-family: 'Great Vibes', cursive;
+  font-family: "Great Vibes", cursive;
   text-shadow: 0px 1px 5px #ba2a4d;
   margin: 12px auto;
 }
@@ -37,7 +36,7 @@ canvas {
 .controls-container {
   display: flex;
   justify-content: space-between;
-
+  margin-top: 40px;
 }
 .controls {
   display: flex;
