@@ -1,64 +1,89 @@
+html,
+body,
+header,
+nav,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+ul,
+li,
+strong,
+main,
+button,
+i,
+section,
+img,
+div,
+p,
+form,
+fieldset,
+label,
+input,
+textarea,
+span,
+article,
+footer,
+time,
+small {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  box-sizing: inherit;
+  background: transparent;
 
+  /* // border: 1px solid pink !important; */
+}
 
- html, body, header, nav, h1, h2, h3, h4, h5, h6, a,
- ul, li, strong, main, button, i,
- section, img, div,  p, form,
- fieldset, label, input, textarea,
- span, article, footer, time, small {
-   margin: 0;
-   padding: 0;
-   border: 0;
-   outline: 0;
-   font: inherit;
-   color: inherit;
-   text-align: inherit;
-   text-decoration: inherit;
-   vertical-align: inherit;
-   box-sizing: inherit;
-   background: transparent;
+ul {
+  list-style: none;
+}
 
-   /* // border: 1px solid pink !important; */
- }
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
- ul {
-   list-style: none;
- }
-
- img {
-   display: block;
-   width: 100%;
-   height: auto;
- }
-
- input[type="password"],
- input[type="email"],
- input[type="text"],
- input[type="submit"],
- textarea,
- button {
-   /*
+input[type="password"],
+input[type="email"],
+input[type="text"],
+input[type="submit"],
+input[type="range"],
+textarea,
+button {
+  /*
    Get rid of native styling. Read more here:
    http://css-tricks.com/almanac/properties/a/appearance/
    */
-   -webkit-appearance: none;
-   -moz-appearance: none;
- }
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
 
- button,
- input[type="submit"] {
-   cursor: pointer;
- }
+button,
+input[type="submit"] {
+  cursor: pointer;
+}
 
- //end of reset file
+//end of reset file
 
 body {
   background-color: #f0f0f0;
 
   // text-decoration: none;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
-
-a:link, a:visited {
+a:link,
+a:visited {
   text-decoration: none;
 }

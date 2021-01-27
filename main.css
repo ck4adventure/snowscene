@@ -56,6 +56,10 @@ canvas {
   justify-content: space-between;
 }
 
+input[type="range"] {
+  -webkit-appearance: none;
+}
+
 .values {
   flex-direction: column;
   text-align: right;
